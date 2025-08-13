@@ -1,70 +1,98 @@
-# React + TypeScript + Vite
+Spatial Mapping Assessment UI
+This project is a front-end UI built with React to visualize spatial data (points, polygons, multipolygons) as interactive layers on a map, using the Geoapify Boundaries API.
+✨ Features
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Map Container: Interactive map with Leaflet + OpenStreetMap.
+Search Bar: Search Indian states with live suggestions.
+Polygon Layer: Display state boundaries as overlays.
+Points Layer: Markers at state centroids with popups.
+Responsive UI: Works on desktop and mobile.
 
-Currently, two official plugins are available:
+🛠 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React.js: Functional components + Hooks
+Leaflet: Map rendering
+Geoapify: Boundaries & Geocoding API
+Axios: API calls
+TypeScript: Optional
+TailwindCSS: Styling (or custom CSS)
 
-## Expanding the ESLint configuration
+🚀 Getting Started
+1️⃣ Get a Geoapify API Key
+Sign up at Geoapify Boundaries API and generate an API key. The free tier is sufficient for development.
+2️⃣ Add API Key to .env
+Create a .env file in the project root:
+VITE_GEOAPIFY_KEY=your_actual_api_key_here
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
+Note: For Create React App, use:
+REACT_APP_GEOAPIFY_KEY=your_api_key_here
+
+Add .env to .gitignore to avoid leaking your key.
+
+3️⃣ Install Dependencies
+npm install react-leaflet leaflet axios
+
+For TypeScript:
+npm install --save-dev @types/leaflet
+
+4️⃣ Run the App
+npm run dev  # Vite / modern setups
+
+or
+npm start  # Create React App
+
+The app should open in your browser.
+📌 Usage
+
+Enter a state name in the search bar.
+Select from suggestions or press Enter.
+The map will:
+Zoom to the state.
+Show State details such as name on click of the marker
+
+
+
+🔍 Example API Calls
+const apiKey = import.meta.env.VITE_GEOAPIFY_KEY;
+
+// 1. Get state coordinates via geocoding
+const geoRes = await axios.get(
+  "https://api.geoapify.com/v1/geocode/search",
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
+    params: {
+      text: `${search}, India`,
+      filter: "countrycode:in",
+      type: "state",
+      limit: 1,
+      apiKey,
     },
-  },
-])
-```
+  }
+);
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
+// 2. Fetch boundaries with coordinates
+const bRes = await axios.get(
+  "https://api.geoapify.com/v1/boundaries/part-of",
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
+    params: {
+      lat,
+      lon,
+      boundary: "administrative",
+      geometry: "geometry_10000",
+      apiKey,
     },
-  },
-])
-```
-# geospacial-state-map
+  }
+);
+
+📜 Attribution
+This project uses:
+
+OpenStreetMap data (© OpenStreetMap contributors)
+Geoapify APIs (© Geoapify)
+
+Follow their attribution guidelines when deploying.
+📌 Notes & Assumptions
+
+Missing requirements handled with reasonable assumptions.
+Extendable to other regions by adjusting API parameters.
+Map provider can be swapped (e.g., Mapbox, MapLibre).
