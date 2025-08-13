@@ -1,4 +1,4 @@
-text
+
 # Spatial Mapping Assessment UI
 
 ## 📌 What This Project Does
@@ -21,12 +21,12 @@ git clone <your-repo-url>
 cd <your-project-folder>
 
 
-text
+
 
 ### 2. Install Dependencies
 npm install
 
-text
+
 
 ### 3. Get a Geoapify API Key
 - Sign up at [https://www.geoapify.com/boundaries-api/](https://www.geoapify.com/boundaries-api/)
