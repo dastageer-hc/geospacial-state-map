@@ -188,9 +188,11 @@ export default function App() {
               ))}
             </ul>
           )}
+          <button className=''></button>
+
           <button
             onClick={fetchStateBoundary}
-            className='absolute right-1 top-1/2 -translate-y-1/2 bg-blue-500 text-white px-3 py-1 rounded'
+            className='absolute right-1 top-[.3rem] -translate-y-1/ px-3 py-1 rounded shadow-[0_4px_14px_0_rgb(0,118,255,39%)] hover:shadow-[0_6px_20px_rgba(0,118,255,23%)] hover:bg-[rgba(0,118,255,0.9)]  bg-[#0070f3]  text-white font-light transition duration-200 ease-linear'
           >
             {loading ? "Loading..." : "Search"}
           </button>
