@@ -78,7 +78,9 @@ export default function App() {
     setBoundary([]); // Clear previous boundaries
     setMarkerPos(null); // Clear previous marker
     const apiKey = import.meta.env.VITE_GEOAPIFY_KEY;
-
+    if (!apiKey) {
+      console.error("VITE_GEOAPIFY_KEY is not defined");
+    }
     try {
       // 1. Get state details via geocoding to find center coordinates
       const geoRes = await axios.get(
